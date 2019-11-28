@@ -9,6 +9,7 @@ import java.io.Serializable;
 public class Person implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column
     private String name;

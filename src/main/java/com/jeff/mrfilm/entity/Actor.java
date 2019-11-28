@@ -9,28 +9,25 @@ import java.util.List;
 public class Actor extends Person implements Serializable {
 
     @Column
-    private String mainRole;
-
-    @Column
     @ManyToMany(mappedBy = "actors")
     private List<Film> films;
 
     public Actor() { }
 
-    public Actor(String mainRole) {
-        this.mainRole = mainRole;
+    public Actor(List<Film> films) {
+        this.films = films;
     }
 
-    public Actor(Long id, String name, String surname, Integer age, Country country, String mainRole) {
+    public Actor(Long id, String name, String surname, Integer age, Country country, List<Film> films) {
         super(id, name, surname, age, country);
-        this.mainRole = mainRole;
+        this.films = films;
     }
 
-    public String getMainRole() {
-        return mainRole;
+    public List<Film> getFilms() {
+        return films;
     }
 
-    public void setMainRole(String mainRole) {
-        this.mainRole = mainRole;
+    public void setFilms(List<Film> films) {
+        this.films = films;
     }
 }

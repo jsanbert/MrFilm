@@ -8,6 +8,7 @@ import java.util.List;
 @Table(name = "countries")
 public class Country implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column
@@ -16,4 +17,12 @@ public class Country implements Serializable {
     @Column
     @OneToMany(mappedBy = "country")
     private List<Person> persons;
+
+    public Country() { }
+
+    public Country(String name) {
+        this.name = name;
+    }
+
+
 }

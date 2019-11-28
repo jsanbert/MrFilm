@@ -8,6 +8,7 @@ import java.util.List;
 @Table(name = "genres")
 public class Genre implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column
@@ -18,6 +19,10 @@ public class Genre implements Serializable {
     private List<Film> films;
 
     public Genre() { }
+
+    public Genre(String name) {
+        this.name = name;
+    }
 
     public Genre(Long id, String name, List<Film> films) {
         this.id = id;

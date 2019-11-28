@@ -8,6 +8,7 @@ import java.util.List;
 @Table(name = "films")
 public class Film implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column
@@ -28,7 +29,7 @@ public class Film implements Serializable {
     @Column
     private Integer premiereYear;
 
-    @Column
+    @ManyToOne(fetch = FetchType.LAZY)
     private Director director;
 
     @Column
@@ -84,11 +85,11 @@ public class Film implements Serializable {
         this.synopsis = synopsis;
     }
 
-    public List<Genre> getGenre() {
+    public List<Genre> getGenres() {
         return genres;
     }
 
-    public void setGenre(List<Genre> genres) {
+    public void setGenres(List<Genre> genres) {
         this.genres = genres;
     }
 

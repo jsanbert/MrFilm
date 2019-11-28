@@ -1,32 +1,33 @@
 package com.jeff.mrfilm.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "directors")
 public class Director extends Person implements Serializable {
+
     @Column
-    private Integer prizesWon;
+    @OneToMany(mappedBy = "director")
+    private List<Film> films;
 
     public Director() { }
 
-    public Director(Integer prizesWon) {
-        this.prizesWon = prizesWon;
+    public Director(List<Film> films) {
+        this.films = films;
     }
 
-    public Director(Long id, String name, String surname, Integer age, Country country, Integer prizesWon) {
+    public Director(Long id, String name, String surname, Integer age, Country country, List<Film> films) {
         super(id, name, surname, age, country);
-        this.prizesWon = prizesWon;
+        this.films = films;
     }
 
-    public Integer getPrizesWon() {
-        return prizesWon;
+    public List<Film> getFilms() {
+        return films;
     }
 
-    public void setPrizesWon(Integer prizesWon) {
-        this.prizesWon = prizesWon;
+    public void setFilms(List<Film> films) {
+        this.films = films;
     }
 }
