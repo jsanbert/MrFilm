@@ -1,11 +1,12 @@
 package com.jeff.mrfilm.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-@Table(name="persons")
+@Table(name="staff")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Person {
+public class Person implements Serializable {
 
     @Id
     private Long id;
@@ -15,7 +16,9 @@ public class Person {
     private String surname;
     @Column
     private Integer age;
-    @Column
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "country_id")
     private Country country;
 
     public Person() {}

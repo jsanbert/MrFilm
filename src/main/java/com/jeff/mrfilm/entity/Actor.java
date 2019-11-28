@@ -1,14 +1,19 @@
 package com.jeff.mrfilm.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "actors")
-public class Actor extends Person {
+public class Actor extends Person implements Serializable {
+
     @Column
     private String mainRole;
+
+    @Column
+    @ManyToMany(mappedBy = "actors")
+    private List<Film> films;
 
     public Actor() { }
 

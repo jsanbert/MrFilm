@@ -1,15 +1,51 @@
 package com.jeff.mrfilm.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "genres")
-public class Genre {
+public class Genre implements Serializable {
     @Id
     private Long id;
+
     @Column
     private String name;
+
+    @Column
+    @ManyToMany(mappedBy = "genres")
+    private List<Film> films;
+
+    public Genre() { }
+
+    public Genre(Long id, String name, List<Film> films) {
+        this.id = id;
+        this.name = name;
+        this.films = films;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Film> getFilms() {
+        return films;
+    }
+
+    public void setFilms(List<Film> films) {
+        this.films = films;
+    }
 }

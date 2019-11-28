@@ -3,10 +3,11 @@ package com.jeff.mrfilm.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "directors")
-public class Director extends Person {
+public class Director extends Person implements Serializable {
     @Column
     private Integer prizesWon;
 

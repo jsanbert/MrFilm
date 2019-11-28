@@ -1,40 +1,58 @@
 package com.jeff.mrfilm.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "films")
-public class Film {
+public class Film implements Serializable {
     @Id
     private Long id;
+
     @Column
     private String title;
+
     @Column
     private String synopsis;
+
     @Column
-    private Genre genre;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "films_genres",
+            joinColumns = { @JoinColumn(name = "genre_id") },
+            inverseJoinColumns = { @JoinColumn(name = "film_id") }
+    )
+    private List<Genre> genres;
+
     @Column
     private Integer premiereYear;
+
     @Column
     private Director director;
+
     @Column
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+        name = "films_actors",
+        joinColumns = { @JoinColumn(name = "actor_id") },
+        inverseJoinColumns = { @JoinColumn(name = "film_id") }
+    )
     private List<Actor> actors;
+
     @Column
     private Integer prizesWon;
+
     @Column
     private Float rate;
 
     public Film() { }
 
-    public Film(Long id, String title, String synopsis, Genre genre, Integer premiereYear, Director director, List<Actor> actors, Integer prizesWon, Float rate) {
+    public Film(Long id, String title, String synopsis, List<Genre> genres, Integer premiereYear, Director director, List<Actor> actors, Integer prizesWon, Float rate) {
         this.id = id;
         this.title = title;
         this.synopsis = synopsis;
-        this.genre = genre;
+        this.genres = genres;
         this.premiereYear = premiereYear;
         this.director = director;
         this.actors = actors;
@@ -66,12 +84,12 @@ public class Film {
         this.synopsis = synopsis;
     }
 
-    public Genre getGenre() {
-        return genre;
+    public List<Genre> getGenre() {
+        return genres;
     }
 
-    public void setGenre(Genre genre) {
-        this.genre = genre;
+    public void setGenre(List<Genre> genres) {
+        this.genres = genres;
     }
 
     public Integer getPremiereYear() {
