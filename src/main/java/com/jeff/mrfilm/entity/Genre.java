@@ -2,6 +2,7 @@ package com.jeff.mrfilm.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,12 +23,7 @@ public class Genre implements Serializable {
 
     public Genre(String name) {
         this.name = name;
-    }
-
-    public Genre(Long id, String name, List<Film> films) {
-        this.id = id;
-        this.name = name;
-        this.films = films;
+        this.films = new ArrayList<>();
     }
 
     public Long getId() {

@@ -18,7 +18,7 @@ public class GenreService implements IGenreService {
         return (List<Genre>) repository.findAll();
     }
 
-    public Genre insertGenre(Genre genre) {
+    public Genre saveGenre(Genre genre) {
         return repository.save(genre);
     }
 }

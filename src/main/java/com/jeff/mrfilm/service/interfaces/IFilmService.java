@@ -7,6 +7,6 @@ import java.util.List;
 public interface IFilmService {
 
     List<Film> findAll();
-    Film insertFilm(Film film);
+    Film saveFilm(Film film);
 
 }

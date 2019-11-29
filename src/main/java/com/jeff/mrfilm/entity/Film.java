@@ -2,6 +2,7 @@ package com.jeff.mrfilm.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,26 +19,26 @@ public class Film implements Serializable {
     private String synopsis;
 
     @Column
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
     @JoinTable(
-            name = "films_genres",
-            joinColumns = { @JoinColumn(name = "genre_id") },
-            inverseJoinColumns = { @JoinColumn(name = "film_id") }
+        name = "films_genres",
+        joinColumns = { @JoinColumn(name = "film_id") },
+        inverseJoinColumns = { @JoinColumn(name = "genre_id") }
     )
     private List<Genre> genres;
 
     @Column
     private Integer premiereYear;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
     private Director director;
 
     @Column
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
     @JoinTable(
         name = "films_actors",
-        joinColumns = { @JoinColumn(name = "actor_id") },
-        inverseJoinColumns = { @JoinColumn(name = "film_id") }
+        joinColumns = { @JoinColumn(name = "film_id") },
+        inverseJoinColumns = { @JoinColumn(name = "actor_id") }
     )
     private List<Actor> actors;
 
@@ -49,16 +50,15 @@ public class Film implements Serializable {
 
     public Film() { }
 
-    public Film(Long id, String title, String synopsis, List<Genre> genres, Integer premiereYear, Director director, List<Actor> actors, Integer prizesWon, Float rate) {
-        this.id = id;
+    public Film(String title, String synopsis, Integer premiereYear, Integer prizesWon, Float rate) {
         this.title = title;
         this.synopsis = synopsis;
-        this.genres = genres;
         this.premiereYear = premiereYear;
-        this.director = director;
-        this.actors = actors;
         this.prizesWon = prizesWon;
         this.rate = rate;
+        this.genres = new ArrayList<>();
+        this.director = new Director();
+        this.actors = new ArrayList<>();
     }
 
     public Long getId() {
@@ -107,6 +107,7 @@ public class Film implements Serializable {
 
     public void setDirector(Director director) {
         this.director = director;
+        director.addFilm(this);
     }
 
     public List<Actor> getActors() {
@@ -131,5 +132,25 @@ public class Film implements Serializable {
 
     public void setRate(Float rate) {
         this.rate = rate;
+    }
+
+    public void addActor(Actor actor) {
+        this.getActors().add(actor);
+        actor.getFilms().add(this);
+    }
+
+    public void removeActor(Actor actor) {
+        this.getActors().remove(actor);
+        actor.getFilms().remove(this);
+    }
+
+    public void addGenre(Genre genre) {
+        this.getGenres().add(genre);
+        genre.getFilms().add(this);
+    }
+
+    public void removeGenre(Genre genre) {
+        this.getGenres().remove(genre);
+        genre.getFilms().remove(this);
     }
 }

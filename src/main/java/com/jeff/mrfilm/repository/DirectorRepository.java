@@ -1,11 +1,10 @@
 package com.jeff.mrfilm.repository;
 
-import com.jeff.mrfilm.entity.Actor;
-import com.jeff.mrfilm.entity.Person;
+import com.jeff.mrfilm.entity.Director;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PersonRepository extends CrudRepository<Person, Long> {
+public interface DirectorRepository extends CrudRepository<Director, Long> {
 
 }

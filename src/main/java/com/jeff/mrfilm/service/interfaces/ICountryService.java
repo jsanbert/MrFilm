@@ -7,5 +7,5 @@ import java.util.List;
 public interface ICountryService {
 
     List<Country> findAll();
-    Country insertCountry(Country country);
+    Country saveCountry(Country country);
 }

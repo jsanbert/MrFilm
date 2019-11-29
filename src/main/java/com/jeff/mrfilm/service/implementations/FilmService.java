@@ -18,7 +18,7 @@ public class FilmService implements IFilmService {
         return (List<Film>) repository.findAll();
     }
 
-    public Film insertFilm(Film film) {
+    public Film saveFilm(Film film) {
         return repository.save(film);
     }
 }

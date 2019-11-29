@@ -18,7 +18,7 @@ public class CountryService implements ICountryService {
         return (List<Country>) repository.findAll();
     }
 
-    public Country insertCountry(Country country) {
+    public Country saveCountry(Country country) {
         return repository.save(country);
     }
 }

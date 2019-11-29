@@ -1,7 +1,10 @@
 package com.jeff.mrfilm.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name="staff")
@@ -11,24 +14,28 @@ public class Person implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     @Column
     private String name;
+
     @Column
     private String surname;
-    @Column
-    private Integer age;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @Column
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date birthDate;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
     @JoinColumn(name = "country_id")
     private Country country;
 
     public Person() {}
 
-    public Person(Long id, String name, String surname, Integer age, Country country) {
-        this.id = id;
+    public Person(String name, String surname, Date birthDate, Country country) {
         this.name = name;
         this.surname = surname;
-        this.age = age;
+        this.birthDate = birthDate;
         this.country = country;
     }
 
@@ -56,12 +63,12 @@ public class Person implements Serializable {
         this.surname = surname;
     }
 
-    public Integer getAge() {
-        return age;
+    public Date getBirthDate() {
+        return birthDate;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 
     public Country getCountry() {
@@ -70,5 +77,6 @@ public class Person implements Serializable {
 
     public void setCountry(Country country) {
         this.country = country;
+        country.getPersons().add(this);
     }
 }
