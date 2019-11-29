@@ -1,6 +1,7 @@
 package com.jeff.mrfilm.entity;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.hateoas.EntityModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -9,7 +10,7 @@ import java.util.Date;
 @Entity
 @Table(name="staff")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Person implements Serializable {
+public class Person extends EntityModel<Person> implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
