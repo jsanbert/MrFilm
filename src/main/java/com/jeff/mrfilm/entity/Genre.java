@@ -1,13 +1,24 @@
 package com.jeff.mrfilm.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jeff.mrfilm.controller.FilmController;
+import com.jeff.mrfilm.controller.GenreController;
+import com.jeff.mrfilm.controller.PersonController;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.springframework.hateoas.server.core.DummyInvocationUtils.methodOn;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+
 @Entity
 @Table(name = "genres")
-public class Genre implements Serializable {
+public class Genre extends EntityModel<Genre> implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -17,6 +28,7 @@ public class Genre implements Serializable {
 
     @Column
     @ManyToMany(mappedBy = "genres")
+    @JsonBackReference
     private List<Film> films;
 
     public Genre() { }
@@ -48,5 +60,20 @@ public class Genre implements Serializable {
 
     public void setFilms(List<Film> films) {
         this.films = films;
+    }
+
+    public void addAllLinks() {
+        Link filmsLink = linkTo(methodOn(GenreController.class)
+                .getFilmsWithGenreByGenreId(this.getId())).withRel("films");
+
+        this.addSelfLink();
+        this.add(filmsLink);
+    }
+
+    public void addSelfLink() {
+        Link selfLink = linkTo(methodOn(GenreController.class)
+                .getGenreById(this.getId())).withSelfRel();
+
+        this.add(selfLink);
     }
 }

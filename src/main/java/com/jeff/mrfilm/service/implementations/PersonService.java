@@ -24,9 +24,16 @@ public class PersonService implements IPersonService {
     @Autowired
     public DirectorRepository directorRepository;
 
-    public List<Person> findAllPersons() {
+    public List<Person> findAllPeople() {
         return (List<Person>) personRepository.findAll();
     }
+
+    public Actor findActorById(Long id) { return (Actor) personRepository.findById(id).orElse(null); }
+    public List<Actor> findActorsByFilmId(Long id) { return (List<Actor>) personRepository.findActorsByFilmId(id); }
+    public Director findDirectorById(Long id) { return (Director) personRepository.findById(id).orElse(null); }
+
+    public List<Actor> findActorsByCountryId(Long id) { return (List<Actor>) personRepository.findActorsByCountryId(id); }
+    public List<Director> findDirectorsByCountryId(Long id) { return (List<Director>) personRepository.findDirectorsByCountryId(id); }
 
     public Director saveDirector(Director director) {
         return directorRepository.save(director);

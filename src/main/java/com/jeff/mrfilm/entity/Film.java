@@ -1,13 +1,25 @@
 package com.jeff.mrfilm.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.jeff.mrfilm.controller.CountryController;
+import com.jeff.mrfilm.controller.FilmController;
+import com.jeff.mrfilm.controller.GenreController;
+import com.jeff.mrfilm.controller.PersonController;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.springframework.hateoas.server.core.DummyInvocationUtils.methodOn;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+
 @Entity
 @Table(name = "films")
-public class Film implements Serializable {
+public class Film extends EntityModel<Film> implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -18,28 +30,33 @@ public class Film implements Serializable {
     @Column
     private String synopsis;
 
+    @ManyToOne
+    private Country country;
+
     @Column
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
+    @ManyToMany(cascade = { CascadeType.MERGE })
     @JoinTable(
         name = "films_genres",
         joinColumns = { @JoinColumn(name = "film_id") },
         inverseJoinColumns = { @JoinColumn(name = "genre_id") }
     )
+    @JsonManagedReference
     private List<Genre> genres;
 
     @Column
     private Integer premiereYear;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
+    @ManyToOne(cascade = { CascadeType.MERGE })
     private Director director;
 
     @Column
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
+    @ManyToMany(cascade = { CascadeType.MERGE })
     @JoinTable(
         name = "films_actors",
         joinColumns = { @JoinColumn(name = "film_id") },
         inverseJoinColumns = { @JoinColumn(name = "actor_id") }
     )
+    @JsonManagedReference
     private List<Actor> actors;
 
     @Column
@@ -50,9 +67,10 @@ public class Film implements Serializable {
 
     public Film() { }
 
-    public Film(String title, String synopsis, Integer premiereYear, Integer prizesWon, Float rate) {
+    public Film(String title, String synopsis, Country country, Integer premiereYear, Integer prizesWon, Float rate) {
         this.title = title;
         this.synopsis = synopsis;
+        this.country = country;
         this.premiereYear = premiereYear;
         this.prizesWon = prizesWon;
         this.rate = rate;
@@ -83,6 +101,14 @@ public class Film implements Serializable {
 
     public void setSynopsis(String synopsis) {
         this.synopsis = synopsis;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
     }
 
     public List<Genre> getGenres() {
@@ -152,5 +178,33 @@ public class Film implements Serializable {
     public void removeGenre(Genre genre) {
         this.getGenres().remove(genre);
         genre.getFilms().remove(this);
+    }
+
+    public void addLinks() {
+
+        Link actorsLink = linkTo(methodOn(FilmController.class)
+                .getActorsByFilmId(this.getId())).withRel("actors");
+
+        Link countryLink = linkTo(methodOn(CountryController.class)
+                .getCountryById(this.getCountry().getId())).withRel("country");
+
+        Link directorLink = linkTo(methodOn(PersonController.class)
+                .getDirectorById(this.getDirector().getId())).withRel("director");
+
+        Link genresLink = linkTo(methodOn(FilmController.class)
+                .get(this.getDirector().getId())).withRel("director");
+
+        this.addSelfLink();
+        this.add(actorsLink);
+        this.add(countryLink);
+        this.add(directorLink);
+        this.add(genresLink);
+    }
+
+    public void addSelfLink() {
+        Link selfLink = linkTo(methodOn(FilmController.class)
+                .getFilmById(this.getId())).withSelfRel();
+
+        this.add(selfLink);
     }
 }

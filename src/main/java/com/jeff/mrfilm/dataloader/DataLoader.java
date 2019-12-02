@@ -35,11 +35,11 @@ public class DataLoader implements ApplicationRunner {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
         // COUNTRIES
-        Country country1 = new Country("United States");
-        Country country2 = new Country("Spain");
-        Country country3 = new Country("France");
-        Country country4 = new Country("Poland");
-        Country country5 = new Country("United Kingdom");
+        Country country1 = new Country("United States of America", "USA");
+        Country country2 = new Country("Spain", "ES");
+        Country country3 = new Country("France", "FR");
+        Country country4 = new Country("Poland", "PL");
+        Country country5 = new Country("United Kingdom", "UK");
         countryService.saveCountry(country1);
         countryService.saveCountry(country2);
         countryService.saveCountry(country3);
@@ -75,12 +75,12 @@ public class DataLoader implements ApplicationRunner {
         genreService.saveGenre(genre6);
 
         // FILMS
-        Film film1 = new Film("Eraser", "Synopsis eraser", 2000, 3, 8.8F);
+        Film film1 = new Film("Eraser", "Synopsis Eraser", country1, 2000, 3, 8.8F);
         film1.addActor(actor1);
         film1.addGenre(genre1);
         film1.setDirector(director1);
 
-        Film film2 = new Film("Rambo", "Synopsis Rambo", 1997, 6, 7.5F);
+        Film film2 = new Film("Rambo", "Synopsis Rambo", country1, 1997, 6, 7.5F);
         film2.addActor(actor2);
         film2.addGenre(genre1);
         film2.addGenre(genre4);

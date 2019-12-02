@@ -1,5 +1,7 @@
 package com.jeff.mrfilm.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.hateoas.EntityModel;
 
@@ -8,7 +10,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name="staff")
+@Table(name="people")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Person extends EntityModel<Person> implements Serializable {
 
@@ -27,8 +29,9 @@ public class Person extends EntityModel<Person> implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthDate;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
+    @ManyToOne(cascade = { CascadeType.MERGE })
     @JoinColumn(name = "country_id")
+    @JsonManagedReference
     private Country country;
 
     public Person() {}
@@ -78,6 +81,6 @@ public class Person extends EntityModel<Person> implements Serializable {
 
     public void setCountry(Country country) {
         this.country = country;
-        country.getPersons().add(this);
+        country.getPeople().add(this);
     }
 }

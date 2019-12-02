@@ -18,6 +18,8 @@ public class GenreService implements IGenreService {
         return (List<Genre>) repository.findAll();
     }
 
+    public Genre findGenreById(Long id) { return repository.findById(id).orElse(null); }
+
     public Genre saveGenre(Genre genre) {
         return repository.save(genre);
     }
