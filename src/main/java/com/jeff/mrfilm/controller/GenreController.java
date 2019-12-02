@@ -4,6 +4,7 @@ import com.jeff.mrfilm.entity.Actor;
 import com.jeff.mrfilm.entity.Genre;
 import com.jeff.mrfilm.entity.Director;
 import com.jeff.mrfilm.entity.Film;
+import com.jeff.mrfilm.service.implementations.CountryService;
 import com.jeff.mrfilm.service.implementations.GenreService;
 import com.jeff.mrfilm.service.implementations.FilmService;
 import com.jeff.mrfilm.service.implementations.PersonService;
@@ -24,41 +25,14 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 @RequestMapping("/api/v1")
 public class GenreController {
     @Autowired
-    GenreService genreService;
-
-    @Autowired
     PersonService personService;
 
     @Autowired
     FilmService filmService;
 
-    @GetMapping("/genres")
-    public CollectionModel<EntityModel<Genre>> getAllGenres() {
-        List<Genre> allGenres = genreService.findAll();
+    @Autowired
+    CountryService countryService;
 
-        allGenres.stream().forEach(g -> g.addSelfLink());
-
-        Link selfLink = linkTo(GenreController.class).withSelfRel();
-        CollectionModel<EntityModel<Genre>> result = CollectionModel.wrap(allGenres).add(selfLink);
-        return result;
-    }
-
-    @GetMapping("/genres/{id}")
-    public Genre getGenreById(@PathVariable Long id) {
-        Genre genre = genreService.findGenreById(id);
-
-        genre.addAllLinks();
-
-        return genre;
-    }
-
-    @GetMapping("/genres/{id}/films")
-    public CollectionModel<EntityModel<Film>> getFilmsWithGenreByGenreId(@PathVariable Long id) {
-        List<Film> genreFilms = filmService.findFilmsWithGenreByGenreId(id);
-        genreFilms.stream().forEach(f-> f.addSelfLink());
-
-        Link selfLink = linkTo(GenreController.class).withSelfRel();
-        CollectionModel<EntityModel<Film>> result = CollectionModel.wrap(genreFilms).add(selfLink);
-        return result;
-    }
+    @Autowired
+    GenreService genreService;
 }

@@ -39,23 +39,4 @@ public class Actor extends Person implements Serializable {
     public void setFilms(List<Film> films) {
         this.films = films;
     }
-
-    public void addAllLinks() {
-        Link filmsLink = linkTo(methodOn(PersonController.class)
-                .getActorFilmsByActorId(this.getId())).withRel("films");
-
-        Link countryLink = linkTo(methodOn(CountryController.class)
-                .getCountryById(this.getCountry().getId())).withRel("country");
-
-        this.addSelfLink();
-        this.add(filmsLink);
-        this.add(countryLink);
-    }
-
-    public void addSelfLink() {
-        Link selfLink = linkTo(methodOn(PersonController.class)
-                .getActorById(this.getId())).withSelfRel();
-
-        this.add(selfLink);
-    }
 }

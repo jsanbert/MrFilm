@@ -179,32 +179,4 @@ public class Film extends EntityModel<Film> implements Serializable {
         this.getGenres().remove(genre);
         genre.getFilms().remove(this);
     }
-
-    public void addLinks() {
-
-        Link actorsLink = linkTo(methodOn(FilmController.class)
-                .getActorsByFilmId(this.getId())).withRel("actors");
-
-        Link countryLink = linkTo(methodOn(CountryController.class)
-                .getCountryById(this.getCountry().getId())).withRel("country");
-
-        Link directorLink = linkTo(methodOn(PersonController.class)
-                .getDirectorById(this.getDirector().getId())).withRel("director");
-
-        Link genresLink = linkTo(methodOn(FilmController.class)
-                .get(this.getDirector().getId())).withRel("director");
-
-        this.addSelfLink();
-        this.add(actorsLink);
-        this.add(countryLink);
-        this.add(directorLink);
-        this.add(genresLink);
-    }
-
-    public void addSelfLink() {
-        Link selfLink = linkTo(methodOn(FilmController.class)
-                .getFilmById(this.getId())).withSelfRel();
-
-        this.add(selfLink);
-    }
 }

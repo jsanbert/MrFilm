@@ -73,28 +73,4 @@ public class Country extends EntityModel<Country> implements Serializable {
     public void setCode(String code) {
         this.code = code;
     }
-
-    public void addAllLinks() {
-        Link filmsLink = linkTo(methodOn(CountryController.class)
-                .getFilmsFromCountryByCountryId(this.getId())).withRel("films");
-
-        Link actorsLink = linkTo(methodOn(CountryController.class)
-                .getActorsFromCountryByCountryId(this.getId())).withRel("actors");
-
-        Link directorsLink = linkTo(methodOn(CountryController.class)
-                .getDirectorsFromCountryByCountryId(this.getId())).withRel("directors");
-
-
-        this.addSelfLink();
-        this.add(filmsLink);
-        this.add(actorsLink);
-        this.add(directorsLink);
-    }
-
-    public void addSelfLink() {
-        Link selfLink = linkTo(methodOn(CountryController.class)
-                .getCountryById(this.getId())).withSelfRel();
-
-        this.add(selfLink);
-    }
 }

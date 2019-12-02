@@ -4,7 +4,9 @@ import com.jeff.mrfilm.entity.Actor;
 import com.jeff.mrfilm.entity.Director;
 import com.jeff.mrfilm.entity.Film;
 import com.jeff.mrfilm.entity.Person;
+import com.jeff.mrfilm.service.implementations.CountryService;
 import com.jeff.mrfilm.service.implementations.FilmService;
+import com.jeff.mrfilm.service.implementations.GenreService;
 import com.jeff.mrfilm.service.implementations.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
@@ -32,66 +34,9 @@ public class PersonController {
     @Autowired
     FilmService filmService;
 
-    @GetMapping("/actors")
-    public CollectionModel<EntityModel<Actor>> getAllActors() {
-        List<Actor> allActors = personService.findAllActors();
+    @Autowired
+    CountryService countryService;
 
-        allActors.stream().forEach(a -> a.addSelfLink());
-
-        Link selfLink = linkTo(PersonController.class).withSelfRel();
-        CollectionModel<EntityModel<Actor>> result = CollectionModel.wrap(allActors).add(selfLink);
-        return result;
-    }
-
-    @GetMapping("/actors/{id}")
-    public Actor getActorById(@PathVariable Long id) {
-        Actor actor = personService.findActorById(id);
-
-        actor.addAllLinks();
-
-//        Link countryLink = linkTo(methodOn(PersonController.class)
-//                .getCountryById(actor.getId())).withRel("country");
-        return actor;
-    }
-
-    @GetMapping("/actors/{id}/films")
-    public CollectionModel<EntityModel<Film>> getActorFilmsByActorId(@PathVariable Long id) {
-        List<Film> allFilms = filmService.findFilmsByActorId(id);
-        allFilms.stream().forEach(f -> f.addSelfLink());
-
-        Link selfLink = linkTo(PersonController.class).withSelfRel();
-        CollectionModel<EntityModel<Film>> result = CollectionModel.wrap(allFilms).add(selfLink);
-        return result;
-    }
-    
-    
-    @GetMapping("/directors")
-    public CollectionModel<EntityModel<Director>> getAllDirectors() {
-        List<Director> allDirectors = personService.findAllDirectors();
-
-        allDirectors.stream().forEach(a -> a.addSelfLink());
-
-        Link selfLink = linkTo(PersonController.class).withSelfRel();
-        CollectionModel<EntityModel<Director>> result = CollectionModel.wrap(allDirectors).add(selfLink);
-        return result;
-    }
-
-    @GetMapping("/directors/{id}")
-    public Director getDirectorById(@PathVariable Long id) {
-        Director director = personService.findDirectorById(id);
-
-        director.addAllLinks();
-
-        return director;
-    }
-
-    @GetMapping("/directors/{id}/films")
-    public CollectionModel<EntityModel<Film>> getDirectorFilmsByDirectorId(@PathVariable Long id) {
-        List<Film> allFilms = filmService.findFilmsByDirectorId(id);
-        allFilms.stream().forEach(f -> f.addSelfLink());
-
-        Link selfLink = linkTo(PersonController.class).withSelfRel();
-        CollectionModel<EntityModel<Film>> result = CollectionModel.wrap(allFilms).add(selfLink);
-        return result;
-    }
+    @Autowired
+    GenreService genreService;
 }

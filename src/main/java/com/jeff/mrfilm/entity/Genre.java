@@ -61,19 +61,4 @@ public class Genre extends EntityModel<Genre> implements Serializable {
     public void setFilms(List<Film> films) {
         this.films = films;
     }
-
-    public void addAllLinks() {
-        Link filmsLink = linkTo(methodOn(GenreController.class)
-                .getFilmsWithGenreByGenreId(this.getId())).withRel("films");
-
-        this.addSelfLink();
-        this.add(filmsLink);
-    }
-
-    public void addSelfLink() {
-        Link selfLink = linkTo(methodOn(GenreController.class)
-                .getGenreById(this.getId())).withSelfRel();
-
-        this.add(selfLink);
-    }
 }
