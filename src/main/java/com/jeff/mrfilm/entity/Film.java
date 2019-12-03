@@ -31,10 +31,12 @@ public class Film extends EntityModel<Film> implements Serializable {
     private String synopsis;
 
     @ManyToOne
+    @JoinColumn(name = "country_id")
+    @JsonManagedReference
     private Country country;
 
     @Column
-    @ManyToMany(cascade = { CascadeType.MERGE })
+    @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REMOVE })
     @JoinTable(
         name = "films_genres",
         joinColumns = { @JoinColumn(name = "film_id") },
@@ -50,7 +52,7 @@ public class Film extends EntityModel<Film> implements Serializable {
     private Director director;
 
     @Column
-    @ManyToMany(cascade = { CascadeType.MERGE })
+    @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REMOVE })
     @JoinTable(
         name = "films_actors",
         joinColumns = { @JoinColumn(name = "film_id") },
@@ -70,14 +72,14 @@ public class Film extends EntityModel<Film> implements Serializable {
     public Film(String title, String synopsis, Director director, Country country, Integer premiereYear, Integer prizesWon, Float rate) {
         this.title = title;
         this.synopsis = synopsis;
-        this.country = country;
         country.addFilm(this);
+        this.country = country;
         this.premiereYear = premiereYear;
         this.prizesWon = prizesWon;
         this.rate = rate;
         this.genres = new ArrayList<>();
-        this.director = director;
         director.addFilm(this);
+        this.director = director;
         this.actors = new ArrayList<>();
     }
 
@@ -124,12 +126,12 @@ public class Film extends EntityModel<Film> implements Serializable {
     public void setGenres(List<Genre> newGenres) {
         List<Genre> oldGenres = this.genres;
         for(Genre g : oldGenres) {
-            g.removeFilm(this);
+            g.getFilms().remove(this);
         }
+        this.genres.clear();
         for(Genre g : newGenres) {
             g.addFilm(this);
         }
-        this.genres = newGenres;
     }
 
     public Integer getPremiereYear() {
@@ -187,21 +189,21 @@ public class Film extends EntityModel<Film> implements Serializable {
 
     public void addActor(Actor actor) {
         this.getActors().add(actor);
-        actor.addFilm(this);
+        actor.getFilms().add(this);
     }
 
     public void removeActor(Actor actor) {
         this.getActors().remove(actor);
-        actor.removeFilm(this);
+        actor.getFilms().remove(this);
     }
 
     public void addGenre(Genre genre) {
         this.getGenres().add(genre);
-        genre.addFilm(this);
+        genre.getFilms().add(this);
     }
 
     public void removeGenre(Genre genre) {
         this.getGenres().remove(genre);
-        genre.removeFilm(this);
+        genre.getFilms().remove(this);
     }
 }

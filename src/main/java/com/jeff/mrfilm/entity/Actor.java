@@ -20,15 +20,16 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 public class Actor extends Person implements Serializable {
 
     @Column
-    @ManyToMany(mappedBy = "actors")
+    @ManyToMany(mappedBy = "actors", cascade = { CascadeType.MERGE })
     @JsonBackReference
     private List<Film> films;
 
     @PreRemove
     public void preRemove() {
         for(Film f : films) {
-            f.removeActor(this);
+            f.getActors().remove(this);
         }
+        this.films.clear();
     }
 
     public Actor() { }
@@ -45,19 +46,21 @@ public class Actor extends Person implements Serializable {
     public void setFilms(List<Film> films) {
         List<Film> oldFilms = this.films;
         for(Film f : oldFilms) {
-            f.removeActor(this);
+            f.getActors().remove(this);
         }
+        this.films.clear();
         for(Film f : films) {
             f.addActor(this);
         }
-        this.films = films;
     }
 
     public void addFilm(Film film) {
         this.getFilms().add(film);
+        film.getActors().add(this);
     }
 
     public void removeFilm(Film film) {
         this.getFilms().remove(film);
+        film.getActors().remove(this);
     }
 }

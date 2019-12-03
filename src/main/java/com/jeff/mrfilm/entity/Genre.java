@@ -27,15 +27,16 @@ public class Genre extends EntityModel<Genre> implements Serializable {
     private String name;
 
     @Column
-    @ManyToMany(mappedBy = "genres")
+    @ManyToMany(mappedBy = "genres", cascade = { CascadeType.MERGE })
     @JsonBackReference
     private List<Film> films;
 
     @PreRemove
     public void preRemove() {
         for(Film f : films) {
-            f.removeGenre(this);
+            f.getGenres().remove(this);
         }
+        this.films.clear();
     }
 
     public Genre() { }
@@ -68,19 +69,21 @@ public class Genre extends EntityModel<Genre> implements Serializable {
     public void setFilms(List<Film> films) {
         List<Film> oldFilms = this.films;
         for(Film f : oldFilms) {
-            f.removeGenre(this);
+            f.getGenres().remove(this);
         }
+        this.films.clear();
         for(Film f : films) {
             f.addGenre(this);
         }
-        this.films = films;
     }
 
     public void addFilm(Film film) {
         this.getFilms().add(film);
+        film.getGenres().add(this);
     }
 
     public void removeFilm(Film film) {
         this.getFilms().remove(film);
+        film.getGenres().remove(this);
     }
 }

@@ -1,6 +1,6 @@
 package com.jeff.mrfilm.dataloader;
 
-/*
+
 import com.jeff.mrfilm.entity.*;
 import com.jeff.mrfilm.service.interfaces.ICountryService;
 import com.jeff.mrfilm.service.interfaces.IFilmService;
@@ -89,5 +89,7 @@ public class DataLoader implements ApplicationRunner {
         filmService.saveFilm(film1);
         filmService.saveFilm(film2);
 
+        genreService.deleteGenreById(11L);
+        countryService.deleteCountryById(1L);
     }
-}*/
+}

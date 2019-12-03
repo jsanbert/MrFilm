@@ -33,7 +33,7 @@ CREATE TABLE `films` (
                          `rate` float DEFAULT NULL,
                          `synopsis` varchar(255) DEFAULT NULL,
                          `title` varchar(255) DEFAULT NULL,
-                         `country` bigint(20) DEFAULT NULL,
+                         `country_id` bigint(20) DEFAULT NULL,
                          `director` bigint(20) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
