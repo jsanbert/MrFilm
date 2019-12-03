@@ -31,8 +31,22 @@ public class Country extends EntityModel<Country> implements Serializable {
     @Column
     @OneToMany(mappedBy = "country")
     @JsonBackReference
-    @JsonIgnore
     private List<Person> people;
+
+    @Column
+    @OneToMany(mappedBy = "country")
+    @JsonBackReference
+    private List<Film> films;
+
+    @PreRemove
+    public void preRemove() {
+        for(Person p : people) {
+            p.setCountry(null);
+        }
+        for(Film f : films) {
+            f.setCountry(null);
+        }
+    }
 
     public Country() { }
 
@@ -40,6 +54,7 @@ public class Country extends EntityModel<Country> implements Serializable {
         this.name = name;
         this.code = code;
         this.people = new ArrayList<>();
+        this.films = new ArrayList<>();
     }
 
     public Long getId() {
@@ -63,7 +78,47 @@ public class Country extends EntityModel<Country> implements Serializable {
     }
 
     public void setPeople(List<Person> people) {
+        List<Person> oldPeople = this.people;
+        for(Person p : oldPeople) {
+            p.setCountry(null);
+        }
+        for(Person p : people) {
+            p.setCountry(this);
+        }
         this.people = people;
+    }
+
+    public void addPerson(Person person) {
+        this.getPeople().add(person);
+        person.setCountry(this);
+    }
+
+    public void removePerson(Person person) {
+        this.getPeople().remove(person);
+        person.setCountry(null);
+    }
+
+    public List<Film> getFilms() {
+        return films;
+    }
+
+    public void setFilms(List<Film> films) {
+        List<Film> oldFilms = this.films;
+        for(Film f : oldFilms) {
+            f.setCountry(null);
+        }
+        for(Film f : films) {
+            f.setCountry(this);
+        }
+        this.films = films;
+    }
+
+    public void addFilm(Film film) {
+        this.getFilms().add(film);
+    }
+
+    public void removeFilm(Film film) {
+        this.getFilms().remove(film);
     }
 
     public String getCode() {
@@ -73,4 +128,6 @@ public class Country extends EntityModel<Country> implements Serializable {
     public void setCode(String code) {
         this.code = code;
     }
+
+
 }

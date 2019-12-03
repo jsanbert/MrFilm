@@ -13,12 +13,4 @@ import java.util.List;
 @Repository
 public interface PersonRepository extends CrudRepository<Person, Long> {
 
-    @Query("SELECT a FROM Actor a JOIN a.films f WHERE f.id=:id")
-    Iterable<Actor> findActorsByFilmId(Long id);
-
-    @Query("SELECT a FROM Actor a JOIN a.country c WHERE c.id=:id")
-    Iterable<Actor> findActorsByCountryId(Long id);
-
-    @Query("SELECT d FROM Director d JOIN d.country c WHERE c.id=:id")
-    Iterable<Director> findDirectorsByCountryId(Long id);
 }

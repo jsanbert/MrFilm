@@ -38,4 +38,6 @@ public class FilmService implements IFilmService {
     public Film saveFilm(Film film) {
         return repository.save(film);
     }
+
+    public void deleteFilmById(Long id) { repository.deleteById(id); }
 }

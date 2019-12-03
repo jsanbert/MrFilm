@@ -22,8 +22,14 @@ public class Director extends Person implements Serializable {
     @Column
     @OneToMany(mappedBy = "director")
     @JsonBackReference
-    @JsonIgnore
     private List<Film> films;
+
+    @PreRemove
+    public void preRemove() {
+        for(Film f : films) {
+            f.setDirector(null);
+        }
+    }
 
     public Director() { }
 

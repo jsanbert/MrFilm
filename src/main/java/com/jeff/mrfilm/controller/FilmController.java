@@ -23,7 +23,7 @@ import static org.springframework.hateoas.server.core.DummyInvocationUtils.metho
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/films")
 public class FilmController {
     @Autowired
     PersonService personService;

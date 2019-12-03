@@ -23,4 +23,6 @@ public class GenreService implements IGenreService {
     public Genre saveGenre(Genre genre) {
         return repository.save(genre);
     }
+
+    public void deleteGenreById(Long id) { repository.deleteById(id); }
 }

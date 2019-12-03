@@ -22,8 +22,14 @@ public class Actor extends Person implements Serializable {
     @Column
     @ManyToMany(mappedBy = "actors")
     @JsonBackReference
-    @JsonIgnore
     private List<Film> films;
+
+    @PreRemove
+    public void preRemove() {
+        for(Film f : films) {
+            f.removeActor(this);
+        }
+    }
 
     public Actor() { }
 
@@ -37,6 +43,21 @@ public class Actor extends Person implements Serializable {
     }
 
     public void setFilms(List<Film> films) {
+        List<Film> oldFilms = this.films;
+        for(Film f : oldFilms) {
+            f.removeActor(this);
+        }
+        for(Film f : films) {
+            f.addActor(this);
+        }
         this.films = films;
+    }
+
+    public void addFilm(Film film) {
+        this.getFilms().add(film);
+    }
+
+    public void removeFilm(Film film) {
+        this.getFilms().remove(film);
     }
 }

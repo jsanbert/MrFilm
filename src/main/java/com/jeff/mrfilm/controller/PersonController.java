@@ -26,7 +26,7 @@ import static org.springframework.hateoas.server.core.DummyInvocationUtils.metho
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/")
 public class PersonController {
     @Autowired
     PersonService personService;

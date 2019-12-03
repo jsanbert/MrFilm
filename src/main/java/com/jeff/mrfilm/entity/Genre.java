@@ -31,6 +31,13 @@ public class Genre extends EntityModel<Genre> implements Serializable {
     @JsonBackReference
     private List<Film> films;
 
+    @PreRemove
+    public void preRemove() {
+        for(Film f : films) {
+            f.removeGenre(this);
+        }
+    }
+
     public Genre() { }
 
     public Genre(String name) {
@@ -59,6 +66,21 @@ public class Genre extends EntityModel<Genre> implements Serializable {
     }
 
     public void setFilms(List<Film> films) {
+        List<Film> oldFilms = this.films;
+        for(Film f : oldFilms) {
+            f.removeGenre(this);
+        }
+        for(Film f : films) {
+            f.addGenre(this);
+        }
         this.films = films;
+    }
+
+    public void addFilm(Film film) {
+        this.getFilms().add(film);
+    }
+
+    public void removeFilm(Film film) {
+        this.getFilms().remove(film);
     }
 }

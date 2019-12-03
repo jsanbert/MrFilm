@@ -22,7 +22,7 @@ import java.util.List;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/genres")
 public class GenreController {
     @Autowired
     PersonService personService;

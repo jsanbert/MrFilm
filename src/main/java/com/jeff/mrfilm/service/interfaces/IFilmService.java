@@ -14,5 +14,6 @@ public interface IFilmService {
     List<Film> findFilmsByDirectorId(Long id);
     List<Film> findFilmsByCountryId(Long id);
     List<Film> findFilmsWithGenreByGenreId(Long id);
+    void deleteFilmById(Long id);
 
 }

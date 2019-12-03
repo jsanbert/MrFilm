@@ -80,7 +80,10 @@ public class Person extends EntityModel<Person> implements Serializable {
     }
 
     public void setCountry(Country country) {
+        if(country != null) {
+            this.country.removePerson(this);
+            country.addPerson(this);
+        }
         this.country = country;
-        country.getPeople().add(this);
     }
 }

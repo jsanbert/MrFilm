@@ -12,6 +12,6 @@ public interface ICountryService {
     List<Country> findAll();
 
     Country findCountryById(Long id);
-
     Country saveCountry(Country country);
+    void deleteCountryById(Long id);
 }

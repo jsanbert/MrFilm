@@ -67,15 +67,17 @@ public class Film extends EntityModel<Film> implements Serializable {
 
     public Film() { }
 
-    public Film(String title, String synopsis, Country country, Integer premiereYear, Integer prizesWon, Float rate) {
+    public Film(String title, String synopsis, Director director, Country country, Integer premiereYear, Integer prizesWon, Float rate) {
         this.title = title;
         this.synopsis = synopsis;
         this.country = country;
+        country.addFilm(this);
         this.premiereYear = premiereYear;
         this.prizesWon = prizesWon;
         this.rate = rate;
         this.genres = new ArrayList<>();
-        this.director = new Director();
+        this.director = director;
+        director.addFilm(this);
         this.actors = new ArrayList<>();
     }
 
@@ -108,6 +110,10 @@ public class Film extends EntityModel<Film> implements Serializable {
     }
 
     public void setCountry(Country country) {
+        if(country != null) {
+            this.country.removeFilm(this);
+            country.addFilm(this);
+        }
         this.country = country;
     }
 
@@ -115,8 +121,15 @@ public class Film extends EntityModel<Film> implements Serializable {
         return genres;
     }
 
-    public void setGenres(List<Genre> genres) {
-        this.genres = genres;
+    public void setGenres(List<Genre> newGenres) {
+        List<Genre> oldGenres = this.genres;
+        for(Genre g : oldGenres) {
+            g.removeFilm(this);
+        }
+        for(Genre g : newGenres) {
+            g.addFilm(this);
+        }
+        this.genres = newGenres;
     }
 
     public Integer getPremiereYear() {
@@ -131,17 +144,29 @@ public class Film extends EntityModel<Film> implements Serializable {
         return director;
     }
 
-    public void setDirector(Director director) {
-        this.director = director;
-        director.addFilm(this);
+    public void setDirector(Director newDirector) {
+        if(this.director != null)
+            this.director.removeFilm(this);
+
+        if(newDirector != null)
+            newDirector.addFilm(this);
+
+        this.director = newDirector;
     }
 
     public List<Actor> getActors() {
         return actors;
     }
 
-    public void setActors(List<Actor> actors) {
-        this.actors = actors;
+    public void setActors(List<Actor> newActors) {
+        List<Actor> oldActors = this.actors;
+        for(Actor g : oldActors) {
+            g.removeFilm(this);
+        }
+        for(Actor g : newActors) {
+            g.addFilm(this);
+        }
+        this.actors = newActors;
     }
 
     public Integer getPrizesWon() {
@@ -162,21 +187,21 @@ public class Film extends EntityModel<Film> implements Serializable {
 
     public void addActor(Actor actor) {
         this.getActors().add(actor);
-        actor.getFilms().add(this);
+        actor.addFilm(this);
     }
 
     public void removeActor(Actor actor) {
         this.getActors().remove(actor);
-        actor.getFilms().remove(this);
+        actor.removeFilm(this);
     }
 
     public void addGenre(Genre genre) {
         this.getGenres().add(genre);
-        genre.getFilms().add(this);
+        genre.addFilm(this);
     }
 
     public void removeGenre(Genre genre) {
         this.getGenres().remove(genre);
-        genre.getFilms().remove(this);
+        genre.removeFilm(this);
     }
 }

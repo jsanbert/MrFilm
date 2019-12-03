@@ -9,5 +9,6 @@ public interface IGenreService {
     List<Genre> findAll();
     Genre findGenreById(Long id);
     Genre saveGenre(Genre genre);
+    void deleteGenreById(Long id);
 
 }
