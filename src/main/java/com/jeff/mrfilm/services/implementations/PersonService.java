@@ -1,12 +1,12 @@
-package com.jeff.mrfilm.service.implementations;
+package com.jeff.mrfilm.services.implementations;
 
-import com.jeff.mrfilm.entity.Actor;
-import com.jeff.mrfilm.entity.Director;
-import com.jeff.mrfilm.entity.Person;
-import com.jeff.mrfilm.repository.ActorRepository;
-import com.jeff.mrfilm.repository.DirectorRepository;
-import com.jeff.mrfilm.repository.PersonRepository;
-import com.jeff.mrfilm.service.interfaces.IPersonService;
+import com.jeff.mrfilm.entities.Actor;
+import com.jeff.mrfilm.entities.Director;
+import com.jeff.mrfilm.entities.Person;
+import com.jeff.mrfilm.repositories.ActorRepository;
+import com.jeff.mrfilm.repositories.DirectorRepository;
+import com.jeff.mrfilm.repositories.PersonRepository;
+import com.jeff.mrfilm.services.interfaces.IPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

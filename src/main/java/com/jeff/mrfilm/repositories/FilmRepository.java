@@ -1,11 +1,9 @@
-package com.jeff.mrfilm.repository;
+package com.jeff.mrfilm.repositories;
 
-import com.jeff.mrfilm.entity.Film;
+import com.jeff.mrfilm.entities.Film;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 public interface FilmRepository extends CrudRepository<Film, Long> {

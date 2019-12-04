@@ -1,6 +1,6 @@
-package com.jeff.mrfilm.repository;
+package com.jeff.mrfilm.repositories;
 
-import com.jeff.mrfilm.entity.Genre;
+import com.jeff.mrfilm.entities.Genre;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,9 +1,8 @@
-package com.jeff.mrfilm.service.implementations;
+package com.jeff.mrfilm.services.implementations;
 
-import com.jeff.mrfilm.entity.Film;
-import com.jeff.mrfilm.entity.Genre;
-import com.jeff.mrfilm.repository.FilmRepository;
-import com.jeff.mrfilm.service.interfaces.IFilmService;
+import com.jeff.mrfilm.entities.Film;
+import com.jeff.mrfilm.repositories.FilmRepository;
+import com.jeff.mrfilm.services.interfaces.IFilmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

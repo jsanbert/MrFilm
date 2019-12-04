@@ -1,12 +1,9 @@
-package com.jeff.mrfilm.service.implementations;
+package com.jeff.mrfilm.services.implementations;
 
-import com.jeff.mrfilm.entity.Actor;
-import com.jeff.mrfilm.entity.Country;
-import com.jeff.mrfilm.entity.Director;
-import com.jeff.mrfilm.entity.Film;
-import com.jeff.mrfilm.repository.CountryRepository;
-import com.jeff.mrfilm.repository.FilmRepository;
-import com.jeff.mrfilm.service.interfaces.ICountryService;
+import com.jeff.mrfilm.entities.Country;
+import com.jeff.mrfilm.repositories.CountryRepository;
+import com.jeff.mrfilm.repositories.FilmRepository;
+import com.jeff.mrfilm.services.interfaces.ICountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

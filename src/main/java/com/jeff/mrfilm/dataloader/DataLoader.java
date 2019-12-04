@@ -1,11 +1,11 @@
 package com.jeff.mrfilm.dataloader;
 
 
-import com.jeff.mrfilm.entity.*;
-import com.jeff.mrfilm.service.interfaces.ICountryService;
-import com.jeff.mrfilm.service.interfaces.IFilmService;
-import com.jeff.mrfilm.service.interfaces.IGenreService;
-import com.jeff.mrfilm.service.interfaces.IPersonService;
+import com.jeff.mrfilm.entities.*;
+import com.jeff.mrfilm.services.interfaces.ICountryService;
+import com.jeff.mrfilm.services.interfaces.IFilmService;
+import com.jeff.mrfilm.services.interfaces.IGenreService;
+import com.jeff.mrfilm.services.interfaces.IPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -13,8 +13,6 @@ import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class DataLoader implements ApplicationRunner {

@@ -1,10 +1,7 @@
-package com.jeff.mrfilm.controller;
+package com.jeff.mrfilm.controllers;
 
-import com.jeff.mrfilm.entity.*;
-import com.jeff.mrfilm.service.implementations.CountryService;
-import com.jeff.mrfilm.service.implementations.GenreService;
-import com.jeff.mrfilm.service.implementations.FilmService;
-import com.jeff.mrfilm.service.implementations.PersonService;
+import com.jeff.mrfilm.entities.*;
+import com.jeff.mrfilm.services.implementations.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

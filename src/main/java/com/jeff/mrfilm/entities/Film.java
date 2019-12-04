@@ -1,11 +1,4 @@
-package com.jeff.mrfilm.entity;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.jeff.mrfilm.controller.CountryController;
-import com.jeff.mrfilm.controller.FilmController;
-import com.jeff.mrfilm.controller.GenreController;
-import com.jeff.mrfilm.controller.PersonController;
+package com.jeff.mrfilm.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;

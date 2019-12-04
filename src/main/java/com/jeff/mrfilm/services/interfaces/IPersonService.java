@@ -1,8 +1,8 @@
-package com.jeff.mrfilm.service.interfaces;
+package com.jeff.mrfilm.services.interfaces;
 
-import com.jeff.mrfilm.entity.Actor;
-import com.jeff.mrfilm.entity.Director;
-import com.jeff.mrfilm.entity.Person;
+import com.jeff.mrfilm.entities.Actor;
+import com.jeff.mrfilm.entities.Director;
+import com.jeff.mrfilm.entities.Person;
 
 import java.util.List;
 

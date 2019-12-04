@@ -1,6 +1,6 @@
-package com.jeff.mrfilm.repository;
+package com.jeff.mrfilm.repositories;
 
-import com.jeff.mrfilm.entity.Director;
+import com.jeff.mrfilm.entities.Director;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

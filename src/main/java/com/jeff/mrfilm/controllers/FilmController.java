@@ -1,18 +1,14 @@
-package com.jeff.mrfilm.controller;
+package com.jeff.mrfilm.controllers;
 
-import com.jeff.mrfilm.entity.Actor;
-import com.jeff.mrfilm.entity.Country;
-import com.jeff.mrfilm.entity.Film;
-import com.jeff.mrfilm.entity.Film;
-import com.jeff.mrfilm.service.implementations.CountryService;
-import com.jeff.mrfilm.service.implementations.FilmService;
-import com.jeff.mrfilm.service.implementations.GenreService;
-import com.jeff.mrfilm.service.implementations.PersonService;
+import com.jeff.mrfilm.entities.Film;
+import com.jeff.mrfilm.services.implementations.CountryService;
+import com.jeff.mrfilm.services.implementations.FilmService;
+import com.jeff.mrfilm.services.implementations.GenreService;
+import com.jeff.mrfilm.services.implementations.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

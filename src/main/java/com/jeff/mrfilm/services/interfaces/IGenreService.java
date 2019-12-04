@@ -1,6 +1,6 @@
-package com.jeff.mrfilm.service.interfaces;
+package com.jeff.mrfilm.services.interfaces;
 
-import com.jeff.mrfilm.entity.Genre;
+import com.jeff.mrfilm.entities.Genre;
 
 import java.util.List;
 
