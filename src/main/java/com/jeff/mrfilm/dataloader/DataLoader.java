@@ -88,8 +88,8 @@ public class DataLoader implements ApplicationRunner {
 
         filmService.saveFilm(film1);
         filmService.saveFilm(film2);
-
-        genreService.deleteGenreById(11L);
-        countryService.deleteCountryById(1L);
+//
+//        genreService.deleteGenreById(11L);
+//        countryService.deleteCountryById(1L);
     }
 }

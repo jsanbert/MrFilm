@@ -5,20 +5,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jeff.mrfilm.controller.FilmController;
 import com.jeff.mrfilm.controller.GenreController;
 import com.jeff.mrfilm.controller.PersonController;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.Link;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.hateoas.server.core.DummyInvocationUtils.methodOn;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-
 @Entity
 @Table(name = "genres")
-public class Genre extends EntityModel<Genre> implements Serializable {
+public class Genre implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -28,7 +23,7 @@ public class Genre extends EntityModel<Genre> implements Serializable {
 
     @Column
     @ManyToMany(mappedBy = "genres", cascade = { CascadeType.MERGE })
-    @JsonBackReference
+    @JsonBackReference(value = "genresReference")
     private List<Film> films;
 
     @PreRemove

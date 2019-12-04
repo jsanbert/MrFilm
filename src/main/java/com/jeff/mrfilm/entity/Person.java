@@ -1,9 +1,9 @@
 package com.jeff.mrfilm.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.hateoas.EntityModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,7 +12,7 @@ import java.util.Date;
 @Entity
 @Table(name="people")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Person extends EntityModel<Person> implements Serializable {
+public class Person implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,7 +31,7 @@ public class Person extends EntityModel<Person> implements Serializable {
 
     @ManyToOne(cascade = { CascadeType.MERGE })
     @JoinColumn(name = "country_id")
-    @JsonManagedReference
+    @JsonBackReference(value = "peopleReference")
     private Country country;
 
     public Person() {}

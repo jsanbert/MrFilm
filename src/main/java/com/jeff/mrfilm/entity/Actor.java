@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jeff.mrfilm.controller.CountryController;
 import com.jeff.mrfilm.controller.PersonController;
-import org.springframework.hateoas.Link;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,16 +11,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.springframework.hateoas.server.core.DummyInvocationUtils.methodOn;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-
 @Entity
 @Table(name = "actors")
 public class Actor extends Person implements Serializable {
 
     @Column
     @ManyToMany(mappedBy = "actors", cascade = { CascadeType.MERGE })
-    @JsonBackReference
+    @JsonBackReference(value = "actorsReference")
     private List<Film> films;
 
     @PreRemove

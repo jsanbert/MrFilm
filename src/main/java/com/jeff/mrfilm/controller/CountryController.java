@@ -6,47 +6,41 @@ import com.jeff.mrfilm.service.implementations.FilmService;
 import com.jeff.mrfilm.service.implementations.GenreService;
 import com.jeff.mrfilm.service.implementations.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.Link;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
 @RestController
-@RequestMapping("/api/v1")
-public class CountryController {
-    @Autowired
-    PersonService personService;
+@RequestMapping("${mrfilm.api.baseurl}")
 
-    @Autowired
-    FilmService filmService;
+public class CountryController {
 
     @Autowired
     CountryService countryService;
 
-    @Autowired
-    GenreService genreService;
+    @GetMapping(value = "/countries")
+    public List<Country> getAllCountries() {
+        return countryService.findAll();
+    }
 
-    @PostMapping("/countries/add")
+    @GetMapping(value = "/countries/{id}")
+    public Country getCountryById(@PathVariable Long id) {
+        return countryService.findCountryById(id);
+    }
+
+    @PostMapping(value = "/countries/add", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Country addCountry(@RequestBody Country country) {
         return countryService.saveCountry(country);
     }
 
-    @PutMapping("/countries/update/{id}")
+    @PutMapping(value = "/countries/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Country updateCountry(@PathVariable Long id, @RequestBody Country country) {
-        Country old = countryService.findCountryById(id);
-        if(old != null) {
-            country.setId(old.getId());
-            return countryService.saveCountry(country);
-        }
-        return null;
+        country.setId(id);
+        return countryService.saveCountry(country);
     }
 
-    @DeleteMapping("/countries/delete/{id}")
+    @DeleteMapping(value = "/countries/delete/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void deleteCountry(@PathVariable Long id) {
         countryService.deleteCountryById(id);
     }

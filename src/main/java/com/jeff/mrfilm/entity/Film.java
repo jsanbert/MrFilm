@@ -6,20 +6,15 @@ import com.jeff.mrfilm.controller.CountryController;
 import com.jeff.mrfilm.controller.FilmController;
 import com.jeff.mrfilm.controller.GenreController;
 import com.jeff.mrfilm.controller.PersonController;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.Link;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.hateoas.server.core.DummyInvocationUtils.methodOn;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-
 @Entity
 @Table(name = "films")
-public class Film extends EntityModel<Film> implements Serializable {
+public class Film implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -32,7 +27,6 @@ public class Film extends EntityModel<Film> implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "country_id")
-    @JsonManagedReference
     private Country country;
 
     @Column
@@ -42,7 +36,6 @@ public class Film extends EntityModel<Film> implements Serializable {
         joinColumns = { @JoinColumn(name = "film_id") },
         inverseJoinColumns = { @JoinColumn(name = "genre_id") }
     )
-    @JsonManagedReference
     private List<Genre> genres;
 
     @Column
@@ -58,7 +51,7 @@ public class Film extends EntityModel<Film> implements Serializable {
         joinColumns = { @JoinColumn(name = "film_id") },
         inverseJoinColumns = { @JoinColumn(name = "actor_id") }
     )
-    @JsonManagedReference
+
     private List<Actor> actors;
 
     @Column
@@ -147,9 +140,6 @@ public class Film extends EntityModel<Film> implements Serializable {
     }
 
     public void setDirector(Director newDirector) {
-        if(this.director != null)
-            this.director.removeFilm(this);
-
         if(newDirector != null)
             newDirector.addFilm(this);
 

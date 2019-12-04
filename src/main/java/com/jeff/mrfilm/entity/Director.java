@@ -4,16 +4,12 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jeff.mrfilm.controller.CountryController;
 import com.jeff.mrfilm.controller.PersonController;
-import org.springframework.hateoas.Link;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import static org.springframework.hateoas.server.core.DummyInvocationUtils.methodOn;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @Entity
 @Table(name = "directors")
@@ -26,9 +22,10 @@ public class Director extends Person implements Serializable {
 
     @PreRemove
     public void preRemove() {
-        for(Film f : films) {
+        for(Film f : this.films) {
             f.setDirector(null);
         }
+        this.films.clear();
     }
 
     public Director() { }
