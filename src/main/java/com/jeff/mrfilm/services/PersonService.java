@@ -1,4 +1,4 @@
-package com.jeff.mrfilm.services.implementations;
+package com.jeff.mrfilm.services;
 
 import com.jeff.mrfilm.entities.Actor;
 import com.jeff.mrfilm.entities.Director;
@@ -6,14 +6,13 @@ import com.jeff.mrfilm.entities.Person;
 import com.jeff.mrfilm.repositories.ActorRepository;
 import com.jeff.mrfilm.repositories.DirectorRepository;
 import com.jeff.mrfilm.repositories.PersonRepository;
-import com.jeff.mrfilm.services.interfaces.IPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class PersonService implements IPersonService {
+public class PersonService {
 
     @Autowired
     public PersonRepository personRepository;

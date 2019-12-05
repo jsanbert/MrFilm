@@ -1,4 +1,4 @@
-package com.jeff.mrfilm.exceptions;
+package com.jeff.mrfilm.errors;
 
 import org.springframework.http.HttpStatus;
 
@@ -8,20 +8,15 @@ import java.util.List;
 public class ApiError {
  
     private HttpStatus status;
-    private String message;
     private List<String> errors;
  
-    public ApiError(HttpStatus status, String message, List<String> errors) {
-        super();
+    public ApiError(HttpStatus status, List<String> errors) {
         this.status = status;
-        this.message = message;
         this.errors = errors;
     }
  
-    public ApiError(HttpStatus status, String message, String error) {
-        super();
+    public ApiError(HttpStatus status, String error) {
         this.status = status;
-        this.message = message;
         this.errors = Arrays.asList(error);
     }
 
@@ -31,14 +26,6 @@ public class ApiError {
 
     public void setStatus(HttpStatus status) {
         this.status = status;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 
     public List<String> getErrors() {

@@ -2,10 +2,10 @@ package com.jeff.mrfilm.dataloader;
 
 
 import com.jeff.mrfilm.entities.*;
-import com.jeff.mrfilm.services.interfaces.ICountryService;
-import com.jeff.mrfilm.services.interfaces.IFilmService;
-import com.jeff.mrfilm.services.interfaces.IGenreService;
-import com.jeff.mrfilm.services.interfaces.IPersonService;
+import com.jeff.mrfilm.services.CountryService;
+import com.jeff.mrfilm.services.FilmService;
+import com.jeff.mrfilm.services.GenreService;
+import com.jeff.mrfilm.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -17,13 +17,13 @@ import java.text.SimpleDateFormat;
 @Component
 public class DataLoader implements ApplicationRunner {
 
-    private IFilmService filmService;
-    private ICountryService countryService;
-    private IGenreService genreService;
-    private IPersonService personService;
+    private FilmService filmService;
+    private CountryService countryService;
+    private GenreService genreService;
+    private PersonService personService;
 
     @Autowired
-    public DataLoader(IFilmService filmService, ICountryService countryService, IGenreService genreService, IPersonService personService) {
+    public DataLoader(FilmService filmService, CountryService countryService, GenreService genreService, PersonService personService) {
         this.filmService = filmService;
         this.countryService = countryService;
         this.genreService = genreService;
@@ -39,11 +39,11 @@ public class DataLoader implements ApplicationRunner {
         Country country3 = new Country("France", "FR");
         Country country4 = new Country("Poland", "PL");
         Country country5 = new Country("United Kingdom", "UK");
-        countryService.saveCountry(country1);
-        countryService.saveCountry(country2);
-        countryService.saveCountry(country3);
-        countryService.saveCountry(country4);
-        countryService.saveCountry(country5);
+        countryService.insertCountry(country1);
+        countryService.insertCountry(country2);
+        countryService.insertCountry(country3);
+        countryService.insertCountry(country4);
+        countryService.insertCountry(country5);
 
         // ACTORS
         Actor actor1 = new Actor("Arnold", "Schwarzenegger", sdf.parse("1954-10-27"), country1);

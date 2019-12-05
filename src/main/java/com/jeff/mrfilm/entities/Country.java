@@ -3,6 +3,7 @@ package com.jeff.mrfilm.entities;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +15,12 @@ public class Country implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column
+    @Column(unique = true)
+    @NotEmpty
     private String name;
 
-    @Column
+    @Column(unique = true)
+    @NotEmpty
     private String code;
 
     @Column
@@ -38,6 +41,11 @@ public class Country implements Serializable {
         for(Film f : films) {
             f.setCountry(null);
         }
+    }
+
+    @PrePersist
+    public void prePersist() {
+        this.setCode(this.getCode().toUpperCase());
     }
 
     public Country() { }

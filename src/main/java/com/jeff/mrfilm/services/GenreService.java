@@ -1,15 +1,14 @@
-package com.jeff.mrfilm.services.implementations;
+package com.jeff.mrfilm.services;
 
 import com.jeff.mrfilm.entities.Genre;
 import com.jeff.mrfilm.repositories.GenreRepository;
-import com.jeff.mrfilm.services.interfaces.IGenreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class GenreService implements IGenreService {
+public class GenreService {
 
     @Autowired
     public GenreRepository repository;

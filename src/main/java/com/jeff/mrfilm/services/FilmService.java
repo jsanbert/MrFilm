@@ -1,15 +1,14 @@
-package com.jeff.mrfilm.services.implementations;
+package com.jeff.mrfilm.services;
 
 import com.jeff.mrfilm.entities.Film;
 import com.jeff.mrfilm.repositories.FilmRepository;
-import com.jeff.mrfilm.services.interfaces.IFilmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class FilmService implements IFilmService {
+public class FilmService {
 
     @Autowired
     public FilmRepository repository;

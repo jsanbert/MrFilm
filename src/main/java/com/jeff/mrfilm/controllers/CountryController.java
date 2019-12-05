@@ -1,11 +1,12 @@
 package com.jeff.mrfilm.controllers;
 
 import com.jeff.mrfilm.entities.*;
-import com.jeff.mrfilm.services.implementations.CountryService;
+import com.jeff.mrfilm.services.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -27,14 +28,14 @@ public class CountryController {
     }
 
     @PostMapping(value = "/countries/add", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Country addCountry(@RequestBody Country country) {
-        return countryService.saveCountry(country);
+    public Country addCountry(@RequestBody @Valid Country country) {
+        return countryService.insertCountry(country);
     }
 
     @PutMapping(value = "/countries/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Country updateCountry(@PathVariable Long id, @RequestBody Country country) {
         country.setId(id);
-        return countryService.saveCountry(country);
+        return countryService.insertCountry(country);
     }
 
     @DeleteMapping(value = "/countries/delete/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
