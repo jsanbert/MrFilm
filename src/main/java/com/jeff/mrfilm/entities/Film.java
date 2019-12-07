@@ -1,5 +1,8 @@
 package com.jeff.mrfilm.entities;
 
+import com.jeff.mrfilm.dto.FilmDTO;
+import com.jeff.mrfilm.dto.PersonDTO;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -188,5 +191,23 @@ public class Film implements Serializable {
     public void removeGenre(Genre genre) {
         this.getGenres().remove(genre);
         genre.getFilms().remove(this);
+    }
+    
+    public FilmDTO toFilmDTO() {
+        List<String> actorFullNames = new ArrayList<>();
+        List<String> genres = new ArrayList<>();
+        this.getActors().stream().forEach(a ->
+            actorFullNames.add(a.getName() + " " + a.getSurname())
+        );
+        Director d = this.getDirector();
+        String directorFullName = d.getName() + " " + d.getSurname();
+
+        this.getGenres().stream().forEach(g ->
+            genres.add(g.getName())
+        );
+
+        return new FilmDTO(this.getId(), this.getTitle(), this.getSynopsis(), this.getPremiereYear(),
+                null, this.getCountry().getName(), null, actorFullNames, null,
+                directorFullName, null, genres);
     }
 }

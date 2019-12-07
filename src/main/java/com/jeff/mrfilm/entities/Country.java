@@ -15,12 +15,12 @@ public class Country implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(unique = true)
-    @NotEmpty
+    @Column
+    @NotEmpty(message = "{validation.notemptyornull}")
     private String name;
 
-    @Column(unique = true)
-    @NotEmpty
+    @Column
+    @NotEmpty(message = "{validation.notemptyornull}")
     private String code;
 
     @Column

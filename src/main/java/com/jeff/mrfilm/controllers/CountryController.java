@@ -33,9 +33,8 @@ public class CountryController {
     }
 
     @PutMapping(value = "/countries/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Country updateCountry(@PathVariable Long id, @RequestBody Country country) {
-        country.setId(id);
-        return countryService.insertCountry(country);
+    public Country updateCountry(@PathVariable Long id, @RequestBody @Valid Country country) {
+        return countryService.updateCountry(country);
     }
 
     @DeleteMapping(value = "/countries/delete/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)

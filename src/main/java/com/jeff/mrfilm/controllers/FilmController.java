@@ -1,5 +1,8 @@
 package com.jeff.mrfilm.controllers;
 
+import com.jeff.mrfilm.dto.FilmDTO;
+import com.jeff.mrfilm.dto.PersonDTO;
+import com.jeff.mrfilm.entities.Director;
 import com.jeff.mrfilm.entities.Film;
 import com.jeff.mrfilm.services.CountryService;
 import com.jeff.mrfilm.services.FilmService;
@@ -9,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -27,8 +31,13 @@ public class FilmController {
     GenreService genreService;
 
     @GetMapping(value = "/films")
-    public List<Film> getAllFilms() {
-        return filmService.findAll();
+    public List<FilmDTO> getAllFilms() {
+        List<FilmDTO> filmDTOS = new ArrayList<>();
+        List<Film> films = filmService.findAll();
+
+        films.stream().forEach(f -> filmDTOS.add(f.toFilmDTO()));
+
+        return filmDTOS;
     }
 
     @GetMapping(value = "/films/{id}")

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -27,14 +28,13 @@ public class GenreController {
     }
 
     @PostMapping(value = "/genres/add", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Genre addGenre(@RequestBody Genre genre) {
-        return genreService.saveGenre(genre);
+    public Genre addGenre(@RequestBody @Valid Genre genre) {
+        return genreService.insertGenre(genre);
     }
 
     @PutMapping(value = "/genres/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Genre updateGenre(@PathVariable Long id, @RequestBody Genre genre) {
-        genre.setId(id);
-        return genreService.saveGenre(genre);
+    public Genre updateGenre(@PathVariable Long id, @RequestBody @Valid Genre genre) {
+        return genreService.updateGenre(genre);
     }
 
     @DeleteMapping(value = "/genres/delete/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)

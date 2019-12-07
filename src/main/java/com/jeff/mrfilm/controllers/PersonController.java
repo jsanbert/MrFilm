@@ -1,14 +1,19 @@
 package com.jeff.mrfilm.controllers;
 
+import com.jeff.mrfilm.dto.FilmDTO;
+import com.jeff.mrfilm.dto.PersonDTO;
 import com.jeff.mrfilm.entities.*;
 import com.jeff.mrfilm.services.CountryService;
 import com.jeff.mrfilm.services.FilmService;
 import com.jeff.mrfilm.services.GenreService;
 import com.jeff.mrfilm.services.PersonService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -27,29 +32,45 @@ public class PersonController {
     GenreService genreService;
 
     @GetMapping(value = "/actors")
-    public List<Actor> getAllActors() {
-        return personService.findAllActors();
+    public List<PersonDTO> getAllActors() {
+        List<PersonDTO> personDTOS = new ArrayList<>();
+        personService.findAllActors().stream().forEach(a -> personDTOS.add(a.toPersonDTO()));
+        return personDTOS;
+
     }
 
     @GetMapping(value = "/actors/{id}")
-    public Actor getActorById(@PathVariable Long id) {
-        return personService.findActorById(id);
+    public PersonDTO getActorById(@PathVariable Long id) {
+        Actor actor = personService.findActorById(id);
+        return actor.toPersonDTO();
     }
 
     @GetMapping(value = "/actors/{id}/films")
-    public List<Film> getActorFilmsByActorId(@PathVariable Long id) {
-        return filmService.findFilmsByActorId(id);
+    public List<FilmDTO> getActorFilmsByActorId(@PathVariable Long id) {
+        List<FilmDTO> filmDTOS = new ArrayList<>();
+        filmService.findFilmsByActorId(id).stream().forEach(f -> filmDTOS.add(f.toFilmDTO()));
+        return filmDTOS;
     }
 
     @PostMapping(value = "/actors/add", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Actor addActor(@RequestBody Actor actor) {
-        return personService.saveActor(actor);
+    public PersonDTO addActor(@RequestBody @Valid PersonDTO personDTO) {
+        Country country = countryService.findCountryById(personDTO.getCountryId());
+        Actor actor = new Actor(personDTO.getName(), personDTO.getSurname(), personDTO.getBirthDate(), country);
+        personDTO.setId(actor.getId());
+        personService.insertActor(actor);
+        return personDTO;
     }
 
     @PutMapping(value = "/actors/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Actor updateActor(@PathVariable Long id, @RequestBody Actor actor) {
+    public PersonDTO updateActor(@PathVariable Long id, @RequestBody @Valid PersonDTO personDTO) {
+        Country country = countryService.findCountryById(personDTO.getCountryId());
+        Actor actor = new Actor(personDTO.getName(), personDTO.getSurname(), personDTO.getBirthDate(), country);
         actor.setId(id);
-        return personService.saveActor(actor);
+        personService.updateActor(actor);
+
+        personDTO.setId(id);
+        personDTO.setCountry(country.getName());
+        return personDTO;
     }
 
     @DeleteMapping(value = "/actors/delete/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)

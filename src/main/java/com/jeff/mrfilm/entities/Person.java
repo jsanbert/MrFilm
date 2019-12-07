@@ -1,9 +1,13 @@
 package com.jeff.mrfilm.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.jeff.mrfilm.dto.PersonDTO;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -17,14 +21,17 @@ public class Person implements Serializable {
     private Long id;
 
     @Column
+    @NotEmpty(message = "{validation.notemptyornull}")
     private String name;
 
     @Column
+    @NotEmpty(message = "{validation.notemptyornull}")
     private String surname;
 
     @Column
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull(message = "{validation.notemptyornull}")
     private Date birthDate;
 
     @ManyToOne(cascade = { CascadeType.MERGE })
@@ -83,5 +90,9 @@ public class Person implements Serializable {
             country.addPerson(this);
         }
         this.country = country;
+    }
+    
+    public PersonDTO toPersonDTO() {
+        return new PersonDTO(this.getId(), this.getName(), this.getSurname(), this.getBirthDate(), this.getCountry().getId(), this.getCountry().getName());
     }
 }

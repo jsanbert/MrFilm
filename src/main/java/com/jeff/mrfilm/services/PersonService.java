@@ -2,7 +2,9 @@ package com.jeff.mrfilm.services;
 
 import com.jeff.mrfilm.entities.Actor;
 import com.jeff.mrfilm.entities.Director;
+import com.jeff.mrfilm.entities.Genre;
 import com.jeff.mrfilm.entities.Person;
+import com.jeff.mrfilm.errors.exceptions.ResourceException;
 import com.jeff.mrfilm.repositories.ActorRepository;
 import com.jeff.mrfilm.repositories.DirectorRepository;
 import com.jeff.mrfilm.repositories.PersonRepository;
@@ -23,22 +25,50 @@ public class PersonService {
     @Autowired
     public DirectorRepository directorRepository;
 
-    // ACTORS
-    public List<Actor> findAllActors() {
-        return (List<Actor>) actorRepository.findAll();
-    }
+    //  ============== PEOPLE ================
     public List<Person> findAllPeople() {
         return (List<Person>) personRepository.findAll();
     }
-    public Actor findActorById(Long id) { return (Actor) actorRepository.findById(id).orElse(null); }
-    public List<Actor> findActorsByFilmId(Long id) { return (List<Actor>) actorRepository.findActorsByFilmId(id); }
-    public List<Actor> findActorsByCountryId(Long id) { return (List<Actor>) actorRepository.findActorsByCountryId(id); }
-    public void deleteActorById(Long id) { actorRepository.deleteById(id); }
-    public Actor saveActor(Actor actor) {
-        return actorRepository.save(actor);
+
+    //  ============== ACTORS ================
+    public List<Actor> findAllActors() {
+        return (List<Actor>) actorRepository.findAll();
     }
 
-    // DIRECTORS
+    public List<Actor> findActorsByFilmId(Long id) { return (List<Actor>) actorRepository.findActorsByFilmId(id); }
+    public List<Actor> findActorsByCountryId(Long id) { return (List<Actor>) actorRepository.findActorsByCountryId(id); }
+
+    public Actor findActorById(Long id) throws ResourceException {
+        Actor actor = actorRepository.findById(id).orElse(null);
+        if(actor != null)
+            return actor;
+        else
+            throw new ResourceException(id, Actor.class.getSimpleName(), ResourceException.NOT_FOUND);
+    }
+
+    public Actor insertActor(Actor actor) {
+        if(actor.getId() != null || actorRepository.exists(actor))
+            throw new ResourceException(actor.getId(), Actor.class.getSimpleName(), ResourceException.ALREADY_EXISTS);
+        else
+            return actorRepository.save(actor);
+    }
+
+    public Actor updateActor(Actor actor) {
+        if(actorRepository.exists(actor))
+            return actorRepository.save(actor);
+        else
+            throw new ResourceException(actor.getId(), Actor.class.getSimpleName(), ResourceException.NOT_FOUND);
+    }
+
+    public void deleteActorById(Long id) {
+        if(actorRepository.existsById(id))
+            actorRepository.deleteById(id);
+        else
+            throw new ResourceException(id, Actor.class.getSimpleName(), ResourceException.NOT_FOUND);
+    }
+    
+
+    //  ============== DIRECTORS ================
     public List<Director> findAllDirectors() {
         return (List<Director>) directorRepository.findAll();
     }

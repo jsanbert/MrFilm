@@ -3,7 +3,6 @@ package com.jeff.mrfilm.services;
 import com.jeff.mrfilm.entities.Country;
 import com.jeff.mrfilm.errors.exceptions.ResourceException;
 import com.jeff.mrfilm.repositories.CountryRepository;
-import com.jeff.mrfilm.repositories.FilmRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +13,6 @@ public class CountryService {
 
     @Autowired
     public CountryRepository countryRepository;
-
-    @Autowired
-    public FilmRepository filmRepository;
 
     public List<Country> findAll() {
         return (List<Country>) countryRepository.findAll();
@@ -31,7 +27,7 @@ public class CountryService {
     }
 
     public Country insertCountry(Country country) {
-        if(country.getId() != null && countryRepository.exists(country))
+        if(country.getId() != null || countryRepository.exists(country))
             throw new ResourceException(country.getId(), Country.class.getSimpleName(), ResourceException.ALREADY_EXISTS);
         else
             return countryRepository.save(country);
