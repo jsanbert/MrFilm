@@ -36,7 +36,6 @@ public class Person implements Serializable {
 
     @ManyToOne(cascade = { CascadeType.MERGE })
     @JoinColumn(name = "country_id")
-    @JsonBackReference(value = "peopleReference")
     private Country country;
 
     public Person() {}

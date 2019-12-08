@@ -43,9 +43,8 @@ public class FilmController {
     }
 
     @GetMapping(value = "/films/{id}")
-    public FilmDTO getFilmById(@PathVariable Long id) {
-        Film film = filmService.findFilmById(id);
-        return film.toFilmDTO();
+    public Film getFilmById(@PathVariable Long id) {
+         return filmService.findFilmById(id);
     }
 
     @PostMapping(value = "/films/add", consumes = MediaType.APPLICATION_JSON_VALUE)
