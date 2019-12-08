@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 @Component
 public class DataLoader implements ApplicationRunner {
@@ -64,8 +65,8 @@ public class DataLoader implements ApplicationRunner {
         // DIRECTORS
         Director director1 = new Director("James", "Cameron", sdf.parse("1954-08-16"), country1);
         Director director2 = new Director("Ted", "Kotcheff", sdf.parse("1931-07-07"), country4);
-        personService.saveDirector(director1);
-        personService.saveDirector(director2);
+        personService.insertDirector(director1);
+        personService.insertDirector(director2);
 
         // GENRES
         Genre genre1 = new Genre("Action");
@@ -82,7 +83,7 @@ public class DataLoader implements ApplicationRunner {
         genreService.insertGenre(genre6);
 
         // FILMS
-        Film film1 = new Film("Rambo", "A veteran Green Beret is forced by a cruel Sheriff and his deputies to flee into the mountains and wage an escalating one-man war against his pursuers.", director2, country1, 1982, 1, 8.8F);
+        Film film1 = new Film("Rambo", "A veteran Green Beret is forced by a cruel Sheriff and his deputies to flee into the mountains and wage an escalating one-man war against his pursuers.", director2, new ArrayList<Actor>(), new ArrayList<Genre>(), country1, 1982, 1, 8.8F);
         film1.addActor(actor2);
         film1.addActor(actor3);
         film1.addActor(actor4);
@@ -90,7 +91,8 @@ public class DataLoader implements ApplicationRunner {
         film1.addGenre(genre3);
         film1.addGenre(genre4);
 
-        Film film2 = new Film("Terminator", "In 1984, a human soldier is tasked to stop an indestructible cyborg killing machine, both sent from 2029, from executing a young woman, whose unborn son is the key to humanity's future salvation.", director1, country1, 1997, 6, 7.5F);
+
+        Film film2 = new Film("Terminator", "In 1984, a human soldier is tasked to stop an indestructible cyborg killing machine, both sent from 2029, from executing a young woman, whose unborn son is the key to humanity's future salvation.", director1, new ArrayList<Actor>(), new ArrayList<Genre>(), country1, 1997, 6, 7.5F);
         film2.addActor(actor1);
         film2.addActor(actor5);
         film2.addGenre(genre1);
@@ -98,8 +100,8 @@ public class DataLoader implements ApplicationRunner {
         film2.addGenre(genre3);
         film2.addGenre(genre6);
 
-        filmService.saveFilm(film1);
-        filmService.saveFilm(film2);
+        filmService.insertFilm(film1);
+        filmService.insertFilm(film2);
 //
 //        genreService.deleteGenreById(11L);
 //        countryService.deleteCountryById(1L);

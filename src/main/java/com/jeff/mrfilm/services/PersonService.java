@@ -72,10 +72,36 @@ public class PersonService {
     public List<Director> findAllDirectors() {
         return (List<Director>) directorRepository.findAll();
     }
-    public Director findDirectorById(Long id) { return (Director) directorRepository.findById(id).orElse(null); }
-    public List<Director> findDirectorsByCountryId(Long id) { return (List<Director>) directorRepository.findDirectorsByCountryId(id); }
-    public void deleteDirectorById(Long id) { directorRepository.deleteById(id); }
-    public Director saveDirector(Director director) {
-        return directorRepository.save(director);
+
+    public Director findDirectorById(Long id) throws ResourceException {
+        Director director = directorRepository.findById(id).orElse(null);
+        if(director != null)
+            return director;
+        else
+            throw new ResourceException(id, Director.class.getSimpleName(), ResourceException.NOT_FOUND);
     }
+
+    public Director insertDirector(Director director) {
+        if(director.getId() != null || directorRepository.exists(director))
+            throw new ResourceException(director.getId(), Director.class.getSimpleName(), ResourceException.ALREADY_EXISTS);
+        else
+            return directorRepository.save(director);
+    }
+
+    public Director updateDirector(Director director) {
+        if(directorRepository.exists(director))
+            return directorRepository.save(director);
+        else
+            throw new ResourceException(director.getId(), Director.class.getSimpleName(), ResourceException.NOT_FOUND);
+    }
+
+    public void deleteDirectorById(Long id) {
+        if(directorRepository.existsById(id))
+            directorRepository.deleteById(id);
+        else
+            throw new ResourceException(id, Director.class.getSimpleName(), ResourceException.NOT_FOUND);
+    }
+    
+    public List<Director> findDirectorsByCountryId(Long id) { return (List<Director>) directorRepository.findDirectorsByCountryId(id); }
+    public Director findDirectorsByFilmId(Long id) { return (Director) directorRepository.findDirectorByFilmId(id); }
 }

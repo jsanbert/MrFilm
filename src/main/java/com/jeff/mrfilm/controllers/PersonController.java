@@ -56,9 +56,7 @@ public class PersonController {
     public PersonDTO addActor(@RequestBody @Valid PersonDTO personDTO) {
         Country country = countryService.findCountryById(personDTO.getCountryId());
         Actor actor = new Actor(personDTO.getName(), personDTO.getSurname(), personDTO.getBirthDate(), country);
-        personDTO.setId(actor.getId());
-        personService.insertActor(actor);
-        return personDTO;
+        return personService.insertActor(actor).toPersonDTO();
     }
 
     @PutMapping(value = "/actors/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -66,11 +64,7 @@ public class PersonController {
         Country country = countryService.findCountryById(personDTO.getCountryId());
         Actor actor = new Actor(personDTO.getName(), personDTO.getSurname(), personDTO.getBirthDate(), country);
         actor.setId(id);
-        personService.updateActor(actor);
-
-        personDTO.setId(id);
-        personDTO.setCountry(country.getName());
-        return personDTO;
+        return personService.updateActor(actor).toPersonDTO();
     }
 
     @DeleteMapping(value = "/actors/delete/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -78,34 +72,50 @@ public class PersonController {
         personService.deleteActorById(id);
     }
 
+
+
+
+
+
     @GetMapping(value = "/directors")
-    public List<Director> getAllDirectors() {
-        return personService.findAllDirectors();
+    public List<PersonDTO> getAllDirectors() {
+        List<PersonDTO> personDTOS = new ArrayList<>();
+        personService.findAllDirectors().stream().forEach(d -> personDTOS.add(d.toPersonDTO()));
+        return personDTOS;
+
     }
 
     @GetMapping(value = "/directors/{id}")
-    public Director getDirectorById(@PathVariable Long id) {
-        return personService.findDirectorById(id);
+    public PersonDTO getDirectorById(@PathVariable Long id) {
+        Director director = personService.findDirectorById(id);
+        return director.toPersonDTO();
     }
 
     @GetMapping(value = "/directors/{id}/films")
-    public List<Film> getDirectorFilmsByDirectorId(@PathVariable Long id) {
-        return filmService.findFilmsByDirectorId(id);
+    public List<FilmDTO> getDirectorFilmsByDirectorId(@PathVariable Long id) {
+        List<FilmDTO> filmDTOS = new ArrayList<>();
+        filmService.findFilmsByDirectorId(id).stream().forEach(f -> filmDTOS.add(f.toFilmDTO()));
+        return filmDTOS;
     }
 
     @PostMapping(value = "/directors/add", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Director addDirector(@RequestBody Director director) {
-        return personService.saveDirector(director);
+    public PersonDTO addDirector(@RequestBody @Valid PersonDTO personDTO) {
+        Country country = countryService.findCountryById(personDTO.getCountryId());
+        Director director = new Director(personDTO.getName(), personDTO.getSurname(), personDTO.getBirthDate(), country);
+        return personService.insertDirector(director).toPersonDTO();
     }
 
     @PutMapping(value = "/directors/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Director updateDirector(@PathVariable Long id, @RequestBody Director director) {
+    public PersonDTO updateDirector(@PathVariable Long id, @RequestBody @Valid PersonDTO personDTO) {
+        Country country = countryService.findCountryById(personDTO.getCountryId());
+        Director director = new Director(personDTO.getName(), personDTO.getSurname(), personDTO.getBirthDate(), country);
         director.setId(id);
-        return personService.saveDirector(director);
+        return personService.updateDirector(director).toPersonDTO();
     }
 
     @DeleteMapping(value = "/directors/delete/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void deleteDirector(@PathVariable Long id) {
         personService.deleteDirectorById(id);
     }
+    
 }

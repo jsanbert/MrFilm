@@ -11,7 +11,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("${mrfilm.api.baseurl}")
-
 public class CountryController {
 
     @Autowired

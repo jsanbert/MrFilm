@@ -1,6 +1,7 @@
 package com.jeff.mrfilm.repositories;
 
 import com.jeff.mrfilm.entities.Actor;
+import com.jeff.mrfilm.entities.Film;
 import com.jeff.mrfilm.entities.Genre;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -11,8 +12,10 @@ import org.springframework.stereotype.Repository;
 public interface ActorRepository extends CrudRepository<Actor, Long> {
     @Query("SELECT COUNT(a) > 0 FROM Actor a " +
             "WHERE a.id = :#{#actor.getId()} " +
-            "OR " +
-            "LOWER(TRIM(a.name)) = LOWER(TRIM(:#{#actor.getName()}))")
+            "OR (" +
+            "LOWER(TRIM(a.name)) = LOWER(TRIM(:#{#actor.getName()})) " +
+            "AND " +
+            "LOWER(TRIM(a.surname)) = :#{#actor.getSurname()})")
     Boolean exists(@Param("actor") Actor actor);
     
     @Query("SELECT a FROM Actor a JOIN a.films f WHERE f.id=:id")

@@ -1,7 +1,6 @@
 package com.jeff.mrfilm.entities;
 
 import com.jeff.mrfilm.dto.FilmDTO;
-import com.jeff.mrfilm.dto.PersonDTO;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -56,20 +55,39 @@ public class Film implements Serializable {
     @Column
     private Float rate;
 
+    @PreRemove
+    public void preRemove() {
+        country.getFilms().remove(this);
+        for(Actor a : actors) {
+            a.getFilms().remove(this);
+        }
+
+        director.getFilms().remove(this);
+        for(Genre g : genres) {
+            g.getFilms().remove(this);
+        }
+
+        this.actors.clear();
+        this.genres.clear();
+    }
+
+
     public Film() { }
 
-    public Film(String title, String synopsis, Director director, Country country, Integer premiereYear, Integer prizesWon, Float rate) {
+    public Film(String title, String synopsis, Director director, List<Actor> actors, List<Genre> genres, Country country, Integer premiereYear, Integer prizesWon, Float rate) {
         this.title = title;
         this.synopsis = synopsis;
-        country.addFilm(this);
+        country.getFilms().add(this);
         this.country = country;
         this.premiereYear = premiereYear;
         this.prizesWon = prizesWon;
         this.rate = rate;
-        this.genres = new ArrayList<>();
-        director.addFilm(this);
+        genres.stream().forEach(g -> g.getFilms().add(this));
+        this.genres = genres;
+        director.getFilms().add(this);
         this.director = director;
-        this.actors = new ArrayList<>();
+        actors.stream().forEach(a -> a.getFilms().add(this));
+        this.actors = actors;
     }
 
     public Long getId() {
@@ -192,22 +210,22 @@ public class Film implements Serializable {
         this.getGenres().remove(genre);
         genre.getFilms().remove(this);
     }
-    
+
     public FilmDTO toFilmDTO() {
         List<String> actorFullNames = new ArrayList<>();
         List<String> genres = new ArrayList<>();
         this.getActors().stream().forEach(a ->
-            actorFullNames.add(a.getName() + " " + a.getSurname())
+                actorFullNames.add(a.getName() + " " + a.getSurname())
         );
         Director d = this.getDirector();
         String directorFullName = d.getName() + " " + d.getSurname();
 
         this.getGenres().stream().forEach(g ->
-            genres.add(g.getName())
+                genres.add(g.getName())
         );
 
-        return new FilmDTO(this.getId(), this.getTitle(), this.getSynopsis(), this.getPremiereYear(),
+        return new FilmDTO(this.getId(), this.getTitle(), this.getSynopsis(), this.getPremiereYear(), this.getPrizesWon(),
                 null, this.getCountry().getName(), null, actorFullNames, null,
-                directorFullName, null, genres);
+                directorFullName, null, genres, this.getRate());
     }
 }

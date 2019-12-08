@@ -108,7 +108,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         String error = "Failed to read HTTP input message (check the body is not empty, has the correct format and has no typos)";
         if(ex.getCause().getClass() == InvalidFormatException.class)
-            error = "Invalid format, date must follow yyyy-MM-dd pattern";
+            error = "Invalid format";
 
         ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, error);
         return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
