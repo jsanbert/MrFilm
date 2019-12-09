@@ -222,7 +222,7 @@ public class Film implements Serializable {
                 actorFullNames.add(a.getName() + " " + a.getSurname())
         );
         Director d = this.getDirector();
-        String directorFullName = d.getName() + " " + d.getSurname();
+        String directorFullName = (d == null) ? null :  d.getName() + " " + d.getSurname();
 
         this.getGenres().stream().forEach(g ->
                 genres.add(g.getName())
