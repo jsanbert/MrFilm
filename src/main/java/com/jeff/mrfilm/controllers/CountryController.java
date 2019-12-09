@@ -33,6 +33,7 @@ public class CountryController {
 
     @PutMapping(value = "/countries/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Country updateCountry(@PathVariable Long id, @RequestBody @Valid Country country) {
+        country.setId(id);
         return countryService.updateCountry(country);
     }
 

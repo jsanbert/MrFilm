@@ -34,6 +34,7 @@ public class GenreController {
 
     @PutMapping(value = "/genres/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Genre updateGenre(@PathVariable Long id, @RequestBody @Valid Genre genre) {
+        genre.setId(id);
         return genreService.updateGenre(genre);
     }
 

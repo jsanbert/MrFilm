@@ -48,17 +48,17 @@ public class FilmController {
     }
 
     @PostMapping(value = "/films/add", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public FilmDTO addFilm(@RequestBody @Valid FilmDTO filmDTO) {
+    public Film addFilm(@RequestBody @Valid FilmDTO filmDTO) {
         Film film = this.fromFilmDTOToFilm(filmDTO);
-        return filmService.insertFilm(film).toFilmDTO();
+        return filmService.insertFilm(film);
     }
 
     @PutMapping(value = "/films/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public FilmDTO updateFilm(@PathVariable Long id, @RequestBody @Valid FilmDTO filmDTO) {
+    public Film updateFilm(@PathVariable Long id, @RequestBody @Valid FilmDTO filmDTO) {
         Film film = this.fromFilmDTOToFilm(filmDTO);
         film.setId(id);
 
-        return filmService.updateFilm(film).toFilmDTO();
+        return filmService.updateFilm(film);
     }
 
     @DeleteMapping(value = "/films/delete/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)

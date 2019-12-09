@@ -92,6 +92,8 @@ public class Person implements Serializable {
     }
     
     public PersonDTO toPersonDTO() {
-        return new PersonDTO(this.getId(), this.getName(), this.getSurname(), this.getBirthDate(), this.getCountry().getId(), this.getCountry().getName());
+        Country country = this.getCountry();
+        String countryName = (country == null) ? null : country.getName();
+        return new PersonDTO(this.getId(), this.getName(), this.getSurname(), this.getBirthDate(), null, countryName);
     }
 }

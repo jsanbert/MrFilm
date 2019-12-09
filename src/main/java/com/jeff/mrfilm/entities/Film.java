@@ -57,12 +57,16 @@ public class Film implements Serializable {
 
     @PreRemove
     public void preRemove() {
-        country.getFilms().remove(this);
+        if(country != null)
+            country.getFilms().remove(this);
+
         for(Actor a : actors) {
             a.getFilms().remove(this);
         }
 
-        director.getFilms().remove(this);
+        if(director != null)
+            director.getFilms().remove(this);
+
         for(Genre g : genres) {
             g.getFilms().remove(this);
         }
@@ -224,8 +228,11 @@ public class Film implements Serializable {
                 genres.add(g.getName())
         );
 
+        Country country = this.getCountry();
+        String countryName = (country == null) ? null : country.getName();
+
         return new FilmDTO(this.getId(), this.getTitle(), this.getSynopsis(), this.getPremiereYear(), this.getPrizesWon(),
-                null, this.getCountry().getName(), null, actorFullNames, null,
+                null, countryName, null, actorFullNames, null,
                 directorFullName, null, genres, this.getRate());
     }
 }
