@@ -1,47 +1,46 @@
-START TRANSACTION;
-
+START TANSACTION;
 INSERT INTO `actors` (`id`, `birth_date`, `name`, `surname`, `country_id`) VALUES
-(6, '1954-10-27', 'Arnold', 'Schwarzenegger', 1),
-(7, '1950-09-10', 'Sylvester', 'Stallone', 5),
-(8, '1960-05-24', 'Antonio', 'Banderas', 2);
+(7, '1947-07-30', 'Arnold', 'Schwarzenegger', 5),
+(8, '1946-07-05', 'Sylvester', 'Stallone', 3),
+(9, '1960-05-24', 'Richard', 'Crenna', 1),
+(10, '1938-07-08', 'Bryan', 'Dennehy', 1),
+(11, '1956-07-31', 'Michael', 'Bienne', 2),
+(12, '1956-09-26', 'Linda', 'Hamilton', 2);
 
 INSERT INTO `countries` (`id`, `code`, `name`) VALUES
 (1, 'USA', 'United States of America'),
 (2, 'ES', 'Spain'),
 (3, 'FR', 'France'),
 (4, 'PL', 'Poland'),
-(5, 'UK', 'United Kingdom');
+(5, 'AT', 'Austria'),
+(6, 'UK', 'United Kingdom');
 
-INSERT INTO `directors` (`id`, `birth_date`, `name`, `surname`, `country_id`) VALUES
-(9, '1967-03-10', 'Michael', 'Bay', 1),
-(10, '1945-05-13', 'Roman', 'Polanski', 4);
-
-INSERT INTO `films` (`id`, `premiere_year`, `prizes_won`, `rate`, `synopsis`, `title`, `country`, `director`) VALUES
-(17, 2000, 3, 8.8, 'Synopsis Eraser', 'Eraser', 1, 9),
-(18, 1997, 6, 7.5, 'Synopsis Rambo', 'Rambo', 1, 10);
+INSERT INTO `films` (`id`, `premiere_year`, `prizes_won`, `rate`, `synopsis`, `title`, `country_id`, `director`) VALUES
+(21, 1982, 1, 8.8, 'A veteran Green Beret is forced by a cruel Sheriff and his deputies to flee into the mountains and wage an escalating one-man war against his pursuers.', 'Rambo', 1, 14),
+(22, 1997, 6, 7.5, 'In 1984, a human soldier is tasked to stop an indestructible cyborg killing machine, both sent from 2029, from executing a young woman, whose unborn son is the key to humanity''s future salvation.', 'Terminator', 1, 13);
 
 INSERT INTO `films_actors` (`film_id`, `actor_id`) VALUES
-(17, 6),
-(18, 7),
-(18, 8);
+(21, 8),
+(21, 9),
+(21, 10),
+(22, 7),
+(22, 11);
 
 INSERT INTO `films_genres` (`film_id`, `genre_id`) VALUES
-(17, 11),
-(18, 11),
-(18, 14);
+(21, 15),
+(21, 17),
+(21, 19),
+(22, 15),
+(22, 16),
+(22, 17),
+(22, 20);
 
 INSERT INTO `genres` (`id`, `name`) VALUES
-(11, 'Action'),
-(12, 'Drama'),
-(13, 'Thriller'),
-(14, 'War'),
-(15, 'Romantic'),
-(16, 'Sci-Fi');
-
-INSERT INTO `hibernate_sequence` (`next_val`) VALUES
-(19),
-(19),
-(19),
-(19);
+(15, 'Action'),
+(16, 'Drama'),
+(17, 'Thriller'),
+(18, 'Romantic'),
+(19, 'War'),
+(20, 'Sci-Fi');
 
 COMMIT;

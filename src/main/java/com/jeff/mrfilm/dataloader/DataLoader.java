@@ -1,5 +1,6 @@
-package com.jeff.mrfilm.dataloader;
+/*
 
+package com.jeff.mrfilm.dataloader;
 
 import com.jeff.mrfilm.entities.*;
 import com.jeff.mrfilm.services.CountryService;
@@ -107,3 +108,5 @@ public class DataLoader implements ApplicationRunner {
 //        countryService.deleteCountryById(1L);
     }
 }
+
+*/

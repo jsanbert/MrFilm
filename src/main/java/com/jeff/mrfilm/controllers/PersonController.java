@@ -28,9 +28,6 @@ public class PersonController {
     @Autowired
     CountryService countryService;
 
-    @Autowired
-    GenreService genreService;
-
     @GetMapping(value = "/actors")
     public List<PersonDTO> getAllActors() {
         List<PersonDTO> personDTOS = new ArrayList<>();
